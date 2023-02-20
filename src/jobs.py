@@ -20,7 +20,7 @@ def start_notifications(config: Config, application: Application):
 async def first_msg(context: ContextTypes.DEFAULT_TYPE):
     resp = await context.bot.send_message(
         chat_id=context.job.user_id,
-        text=f"Server started\n{context.job.data.strftime('%d/%m/%Y, %H:%M:%S')}",
+        text=f"Server started\nat: {context.job.data.strftime('%d/%m/%Y, %H:%M:%S')}",
         reply_markup=InlineKeyboardMarkup.from_button(
             InlineKeyboardButton("Is online now?", callback_data="is_online")
         ),
