@@ -1,0 +1,9 @@
+[Unit]
+Description=Status-Bot
+
+[Service]
+Type=idle
+ExecStart=/home/ubuntu/programs/run_status_bot.sh
+
+[Install]
+WantedBy=multi-user.target
