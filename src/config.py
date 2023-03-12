@@ -12,3 +12,4 @@ class Config:
     AUTOCHECK_INTERVAL = env.int("AUTOCHECK_INTERVAL")
     DATETIME_FORMAT = env.str("DATETIME_FORMAT")
     START_TIME = datetime.now()
+    CALLBACK = f"is_online_{int(START_TIME.timestamp())}"

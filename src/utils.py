@@ -61,11 +61,11 @@ def admin_required():
         @wraps(handler)
         async def wrapped(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if update.callback_query:
-                id = update.callback_query.from_user.id
+                user_id = update.callback_query.from_user.id
             else:
-                id = update.message.from_user.id
+                user_id = update.message.from_user.id
 
-            if str(id) in Config.ADMIN_IDS:
+            if str(user_id) in Config.ADMIN_IDS:
                 return await handler(update, context)
             logger.error("Unknown user")
 
@@ -73,16 +73,24 @@ def admin_required():
 
     return wrapper
 
+
 def gen_report_text(start_time, dt_format):
     if not os.path.isfile("work_time.json"):
         return False
 
     with open("work_time.json", "r") as file:
         unix = json.load(file)["last_active_time"]
-        last_time = datetime.fromtimestamp(unix)
-    return f"Server was offline for {delta(start_time, last_time)}\nfrom {start_time.strftime(dt_format)}\nto {last_time.strftime(dt_format)}"
+        last_active_time = datetime.fromtimestamp(unix)
+    return gen_msg(last_active_time, start_time, False)
 
 
-def delta(start_time: datetime, last_time: datetime):
+def gen_msg(start_time: datetime, finish_time: datetime, online: bool = True):
+    return f"""Server was {"on" if online else "off"}line for {delta(start_time, finish_time)}
+from {start_time.strftime(Config.DATETIME_FORMAT)}
+to {finish_time.strftime(Config.DATETIME_FORMAT)}"""
+
+
+def delta(start_time: datetime, finish_time: datetime):
     start_time -= timedelta(microseconds=start_time.microsecond)
-    return str(start_time - last_time)
+    finish_time -= timedelta(microseconds=finish_time.microsecond)
+    return str(finish_time - start_time)
