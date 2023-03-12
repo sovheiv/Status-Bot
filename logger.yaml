@@ -1,0 +1,31 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  extend_formatter:
+    format: "[{asctime}] {filename} #{levelname} {message}"
+    datefmt: "%d/%m/%Y %H:%M:%S"
+    style: "{"
+  short_formatter:
+    format: "#{levelname} {message}"
+    datefmt: "%H:%M:%S"
+    style: "{"
+
+handlers:
+  bot_handler:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: extend_formatter
+  bot_file_handler:
+    class: logging.FileHandler
+    filename: logs/bot.log
+    level: DEBUG
+    formatter: extend_formatter
+
+loggers:
+  bot_logger:
+    level: DEBUG
+    handlers:
+      - bot_handler
+      - bot_file_handler
+    propagate: false
