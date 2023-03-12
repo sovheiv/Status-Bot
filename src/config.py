@@ -5,8 +5,6 @@ from environs import Env
 env = Env()
 env.read_env(override=True)
 
-print("load conf")
-
 
 class Config:
     TOKEN = env.str("TOKEN")

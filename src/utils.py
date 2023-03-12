@@ -1,5 +1,8 @@
+import json
 import logging
 import logging.config
+import os
+from datetime import datetime, timedelta
 from functools import wraps
 from pathlib import Path
 
@@ -69,3 +72,17 @@ def admin_required():
         return wrapped
 
     return wrapper
+
+def gen_report_text(start_time, dt_format):
+    if not os.path.isfile("work_time.json"):
+        return False
+
+    with open("work_time.json", "r") as file:
+        unix = json.load(file)["last_active_time"]
+        last_time = datetime.fromtimestamp(unix)
+    return f"Server was offline for {delta(start_time, last_time)}\nfrom {start_time.strftime(dt_format)}\nto {last_time.strftime(dt_format)}"
+
+
+def delta(start_time: datetime, last_time: datetime):
+    start_time -= timedelta(microseconds=start_time.microsecond)
+    return str(start_time - last_time)
