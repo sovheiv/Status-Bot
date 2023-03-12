@@ -3,6 +3,7 @@ from telegram.ext import Application, CallbackQueryHandler, MessageHandler, filt
 from .config import Config
 from .utils import logger
 
+
 def create_bot(config=Config):
     application = Application.builder().token(config.TOKEN).build()
 

@@ -4,7 +4,8 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
 from src import Config
-from .utils import log, handle_noedit, admin_required
+
+from .utils import admin_required, handle_noedit, log
 
 
 @log()

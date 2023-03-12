@@ -7,6 +7,7 @@ import yaml
 from telegram import Update
 from telegram.error import BadRequest
 from telegram.ext import ContextTypes
+
 from src import Config
 
 Path("logs").mkdir(parents=True, exist_ok=True)
@@ -27,7 +28,9 @@ def log():
                 user = update.message.from_user
                 data = f"message: {update.message.text}"
 
-            logger.info(f"Handler: {handler.__name__}, {user.id} {user.username} {data}")
+            logger.info(
+                f"Handler: {handler.__name__}, {user.id} {user.username} {data}"
+            )
 
             return await handler(update, context)
 
@@ -58,8 +61,8 @@ def admin_required():
                 id = update.callback_query.from_user.id
             else:
                 id = update.message.from_user.id
-                
-            if str(id) in Config.ADMIN_IDS: 
+
+            if str(id) in Config.ADMIN_IDS:
                 return await handler(update, context)
             logger.error("Unknown user")
 

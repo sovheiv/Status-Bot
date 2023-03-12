@@ -50,4 +50,3 @@ async def update_time(context: ContextTypes.DEFAULT_TYPE):
         ),
     )
     logger.debug("msg time updated")
-
