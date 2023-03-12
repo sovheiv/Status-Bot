@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  status_bot:
+    container_name: Status-Bot
+    build: "https://github.com/sovheiv/Status-Bot.git#main:"
+    env_file:
+      - .env
+    volumes:
+      - time_data:/app/time_data
+
+volumes:
+  time_data:

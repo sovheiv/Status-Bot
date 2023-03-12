@@ -47,14 +47,14 @@ async def first_msg(context: ContextTypes.DEFAULT_TYPE):
         ),
     )
     context.user_data["msg_id"] = resp.message_id
-
+    print(resp.message_id)
     await delete_prev_keyboard(context, resp.message_id)
 
     logger.info("first message sent")
 
 
 async def delete_prev_keyboard(context: ContextTypes.DEFAULT_TYPE, message_id):
-    for i in range(message_id - 6, message_id - 3):
+    for i in range(message_id - 4, message_id - 1):
         try:
             await context.bot.edit_message_reply_markup(
                 chat_id=context.job.user_id, message_id=i
@@ -87,5 +87,5 @@ async def update_tg_time(context: ContextTypes.DEFAULT_TYPE):
 
 
 async def update_json_time(_):
-    with open("work_time.json", "w") as file:
+    with open(Config.TIME_DATA_PATH, "w",) as file:
         json.dump({"last_active_time": int(datetime.now().timestamp())}, file)

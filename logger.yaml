@@ -24,7 +24,7 @@ handlers:
 
 loggers:
   bot_logger:
-    level: DEBUG
+    level: INFO
     handlers:
       - bot_handler
       - bot_file_handler

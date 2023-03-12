@@ -3,7 +3,11 @@ Description=Status-Bot
 
 [Service]
 Type=idle
-ExecStart=/home/ubuntu/programs/run_status_bot.sh
+WorkingDirectory=/home/ubuntu/programs/Status-Bot
+ExecStart=/usr/bin/env /usr/bin/docker-compose -f /home/ubuntu/programs/Status-Bot/docker-compose.yml up --build
+ExecStop=/usr/bin/env /usr/bin/docker-compose -f /home/ubuntu/programs/Status-Bot/docker-compose.yml stop
+StandardOutput=syslog
+RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target

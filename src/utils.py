@@ -19,6 +19,8 @@ with open("./logger.yaml", "r") as stream:
 logging.config.dictConfig(logger_config)
 logger = logging.getLogger(name="bot_logger")
 
+os.makedirs(Config.TIME_DATA_PATH.split("/")[0], exist_ok=True,)
+
 
 def log():
     def wrapper(handler):
@@ -31,9 +33,7 @@ def log():
                 user = update.message.from_user
                 data = f"message: {update.message.text}"
 
-            logger.info(
-                f"Handler: {handler.__name__}, {user.id} {user.username} {data}"
-            )
+            logger.info(f"Handler: {handler.__name__}, {user.id} {user.username} {data}")
 
             return await handler(update, context)
 
@@ -75,10 +75,10 @@ def admin_required():
 
 
 def gen_report_text(start_time, dt_format):
-    if not os.path.isfile("work_time.json"):
+    if not os.path.isfile(Config.TIME_DATA_PATH):
         return False
 
-    with open("work_time.json", "r") as file:
+    with open(Config.TIME_DATA_PATH, "r") as file:
         unix = json.load(file)["last_active_time"]
         last_active_time = datetime.fromtimestamp(unix)
     return gen_msg(last_active_time, start_time, False)
